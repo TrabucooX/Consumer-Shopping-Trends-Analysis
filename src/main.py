@@ -1,5 +1,6 @@
 import pandas as pd
 import joblib
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report
 
@@ -27,7 +28,10 @@ def evaluate_model():
     print(confusion_matrix(y_test, predictions, labels=["Hybrid", "Online", "Store"]))
 
     # Displaying confusion matrix for better visualization
-    
+    display_confusion_matrix = ConfusionMatrixDisplay.from_predictions(y_test, predictions, 
+                                        display_labels=["Hybrid", "Online", "Store"])
+    plt.savefig("../visuals/confusion_matrix.png")
+    plt.close()
 
 
 if __name__ == "__main__":
