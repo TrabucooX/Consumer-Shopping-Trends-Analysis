@@ -3,4 +3,4 @@ This repository focuses on understanding the shopping tends between customer and
 
 By visualizing the results, we can see how the model distinguishes between labels:
 
-![All Labels Confusion Matrix](./visuals/all_confusion_matrices.png)
+![All Labels Confusion Matrix](./visuals/confusion_matrix.png)
