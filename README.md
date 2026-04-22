@@ -19,4 +19,5 @@ By making the model more conservative, we force it to not learn the majority cla
 By visualizing the results, we can see how the model distinguishes between labels:
 
 ![All Labels Confusion Matrix](./visuals/confusion_matrix.png)
+
 As we can see the model performs fairly good on both the majority classes and the least popular ones. There is still some room for improvement in "Hybrid" class, which could be further improved by a more extensive hyperparameter tuning, training the model on a more balanced dataset or trying to collect more data with respect these last classes.
