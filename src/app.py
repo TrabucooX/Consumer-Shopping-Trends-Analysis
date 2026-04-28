@@ -85,5 +85,5 @@ def predict(data: CustomerData):
     input_df = input_df.reindex(columns=model_columns, fill_value=0)
     
     predictions = model.predict(input_df)
-
-    return{"predictions":predictions[0]}
+    string_prediction = encoder.inverse_transform(predictions[0].ravel())
+    return{"predictions": string_prediction[0]}
