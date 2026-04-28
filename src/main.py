@@ -4,6 +4,31 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report
 
+FEATURES = ["age", 
+            "monthly_income",
+            "daily_internet_hours",
+            "smartphone_usage_years",
+            "social_media_hours",
+            "online_payment_trust_score",
+            "tech_savvy_score",
+            "monthly_online_orders",
+            "monthly_store_visits",
+            "avg_online_spend",
+            "avg_store_spend",
+            "discount_sensitivity",
+            "return_frequency",
+            "avg_delivery_days",
+            "delivery_fee_sensitivity",
+            "free_return_importance",
+            "product_availability_online",
+            "impulse_buying_score",
+            "need_touch_feel_score",
+            "brand_loyalty_score",
+            "environmental_awareness",
+            "time_pressure_level",
+            "gender",
+            "city_tier"]
+
 def evaluate_model():
     df = pd.read_csv("data/Consumer_Shopping_Trends_2026.csv")
 
