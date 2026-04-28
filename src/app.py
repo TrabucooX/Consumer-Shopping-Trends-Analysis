@@ -1,19 +1,29 @@
+import os
 from fastapi import FastAPI
 import joblib
 from pydantic import BaseModel,Field
 import pandas as pd
+from contextlib import asynccontextmanager
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "..", "data")
 
-app = FastAPI(title="Customer Shopping Trends Prediction API")
+async def lifespan(app: FastAPI):
+    app.state.model = joblib.load(os.path.join(DATA_DIR, "final_xgb_model.pkl"))
+    app.state.model_columns = joblib.load(os.path.join(DATA_DIR, "model_columns.pkl"))
+    app.state.encoder = joblib.load(os.path.join(DATA_DIR, "label_encoder.pkl"))
+    print("Model and encoder loaded successfully.")
+    yield
 
-def load_model_encoder():
+app = FastAPI(title="Customer Shopping Trends Prediction API", lifespan=lifespan)
+
+"""def load_model_encoder():
     global model, encoder, model_columns
     model = joblib.load("data/final_xgb_model.pkl")
     encoder = joblib.load("data/label_encoder.pkl")
     model_columns = joblib.load("data/model_columns.pkl")
     print("Model and encoder loaded successfully.")
 
-load_model_encoder()
-
+load_model_encoder()"""
 
 class CustomerData(BaseModel):
     age: int = Field(..., example=50)
@@ -82,8 +92,8 @@ def predict(data: CustomerData):
     input_df = pd.DataFrame([data.model_dump()])
 
     input_df = pd.get_dummies(input_df)
-    input_df = input_df.reindex(columns=model_columns, fill_value=0)
+    input_df = input_df.reindex(columns=app.state.model_columns, fill_value=0)
     
-    predictions = model.predict(input_df)
-    string_prediction = encoder.inverse_transform(predictions[0].ravel())
-    return{"predictions": string_prediction[0]}
+    predictions = app.state.model.predict(input_df)
+    label_predictions = app.state.encoder.inverse_transform(predictions)
+    return{"predictions": label_predictions.tolist()}
