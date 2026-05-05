@@ -53,8 +53,7 @@ class CustomerData(BaseModel):
     city_tier: str = Field(..., example="Tier 1")
 
     class Config:
-        # This helps FastAPI documentation show a nice example
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "age": 47,
                 "monthly_income":67899,
@@ -83,13 +82,74 @@ class CustomerData(BaseModel):
             }
         }
 
+class MultipleCustomers(BaseModel):
+    customers : list[CustomerData]
+
+    class Config:
+        json_schema_extra = {
+            "example": { "customers":[{
+                "age": 47,
+                "monthly_income":67899,
+                "daily_internet_hours": 4.5,
+                "smartphone_usage_years": 5,
+                "social_media_hours": 3.0,
+                "online_payment_trust_score": 7,
+                "tech_savvy_score": 8,
+                "monthly_online_orders": 10,
+                "monthly_store_visits": 2,
+                "avg_online_spend": 200,
+                "avg_store_spend": 50,
+                "discount_sensitivity": 6,
+                "return_frequency": 1,
+                "avg_delivery_days": 2,
+                "delivery_fee_sensitivity": 8,
+                "free_return_importance": 9,
+                "product_availability_online": 7,
+                "impulse_buying_score": 4,
+                "need_touch_feel_score": 3,
+                "brand_loyalty_score": 8,
+                "environmental_awareness": 9,
+                "time_pressure_level": 4,
+                "gender": "Non-binary",
+                "city_tier": "Tier 2"}, #Customer 1
+
+                {"age": 37,
+                "monthly_income":7899,
+                "daily_internet_hours": 9.5,
+                "smartphone_usage_years": 3,
+                "social_media_hours": 6.0,
+                "online_payment_trust_score": 2,
+                "tech_savvy_score": 5,
+                "monthly_online_orders": 20,
+                "monthly_store_visits": 5,
+                "avg_online_spend": 20,
+                "avg_store_spend": 5,
+                "discount_sensitivity": 8,
+                "return_frequency": 0,
+                "avg_delivery_days": 4,
+                "delivery_fee_sensitivity": 10,
+                "free_return_importance": 5,
+                "product_availability_online": 7,
+                "impulse_buying_score": 4,
+                "need_touch_feel_score": 5,
+                "brand_loyalty_score": 1,
+                "environmental_awareness": 4,
+                "time_pressure_level": 9,
+                "gender": "Male",
+                "city_tier": "Tier 3"}, #Customer 2
+                ]
+            }
+        }
+
+
 @app.get("/")
 def home():
     return {"message":"Welcome to the Customer Shopping Trends Prediction API"}
 
 @app.post("/predict")
-def predict(data: CustomerData):
-    input_df = pd.DataFrame([data.model_dump()])
+def predict(data: MultipleCustomers):
+    batch_list = [c.model_dump() for c in data.customers]
+    input_df = pd.DataFrame(batch_list)
 
     input_df = pd.get_dummies(input_df)
     input_df = input_df.reindex(columns=app.state.model_columns, fill_value=0)
