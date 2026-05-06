@@ -1,41 +1,79 @@
-🛍️ Consumer Shopping Trends Prediction API
+# 🛍️ Consumer Shopping Trends Prediction API
 
-📌 Overview
+---
+
+## 📌 Overview
+
 This project is a Machine Learning system designed to predict customer shopping preferences (Online, Store, Hybrid) based on behavioral and demographic data.
+
 It includes:
-•	A trained XGBoost classification model
-•	A fully functional FastAPI REST API
-•	A Dockerized deployment for easy execution anywhere
-________________________________________
-🚀 Features
-•	End-to-end ML pipeline (data → model → API)
-•	Real-time predictions via REST API
-•	Docker container for reproducibility
-•	Structured and production-ready code
-________________________________________
-🧠 Model Details
+
+* A trained XGBoost classification model
+* A fully functional FastAPI REST API
+* A Dockerized deployment for easy execution anywhere
+
+---
+
+## 🚀 Features
+
+* End-to-end ML pipeline (data → model → API)
+* Real-time predictions via REST API
+* Docker container for reproducibility
+* Structured and production-ready code
+
+---
+
+## 🧠 Model Details
+
 The model is trained using:
-•	XGBoost Classifier
-•	Stratified sampling to handle class imbalance
-•	Hyperparameter tuning focused on:
-o	min_child_weight
-o	max_delta_step
-⚠️ Challenges
-•	Imbalanced dataset (Hybrid class underrepresented)
-•	Risk of overfitting mitigated through conservative tuning
-________________________________________
-📊 Evaluation
- 
+
+* XGBoost Classifier
+* Stratified sampling to handle class imbalance
+* Hyperparameter tuning focused on:
+
+  * `min_child_weight`
+  * `max_delta_step`
+
+### ⚠️ Challenges
+
+* Imbalanced dataset (Hybrid class underrepresented)
+* Risk of overfitting mitigated through conservative tuning
+
+---
+
+## 📊 Evaluation
+
 ![Confusion Matrix](./visuals/confusion_matrix.png)
+
 ### Performance Metrics
-| Class | Precision | Recall | F1-Score | Support | |---------|-----------|--------|----------|---------| | Hybrid | 0.97 | 0.85 | **0.91** | 74 | | Online | 0.99 | 1.00 | **0.99** | 235 | | Store | 1.00 | 1.00 | **1.00** | 2049 |
-**Overall Metrics:** - **Accuracy**: **99%** - **Macro Average F1**: **0.97** - **Weighted Average F1**: **0.99**
+
+| Class  | Precision | Recall | F1-Score | Support |
+| ------ | --------- | ------ | -------- | ------- |
+| Hybrid | 0.97      | 0.85   | **0.91** | 74      |
+| Online | 0.99      | 1.00   | **0.99** | 235     |
+| Store  | 1.00      | 1.00   | **1.00** | 2049    |
+
+**Overall Metrics:**
+
+* **Accuracy**: **99%**
+* **Macro Average F1**: **0.97**
+* **Weighted Average F1**: **0.99**
+
 The model achieves excellent overall performance, with near-perfect results on the `Store` and `Online` classes. The `Hybrid` class, being the most underrepresented, shows a lower recall (0.85), which is the main area for future improvement.
-________________________________________
-🧩 API Usage
-Endpoint
+
+---
+
+## 🧩 API Usage
+
+### Endpoint
+
+```bash
 POST /predict
-Example Request
+```
+
+### Example Request
+
+```json
 {
   "age": 30,
   "monthly_income": 50000,
@@ -62,25 +100,54 @@ Example Request
   "gender": "Female",
   "city_tier": "Tier 1"
 }
-Example Response
+```
+
+### Example Response
+
+```json
 {
   "prediction": "Online"
 }
-________________________________________
-🐳 Run with Docker
-1. Build the image
+```
+
+---
+
+## 🐳 Run with Docker
+
+### 1. Build the image
+
+```bash
 docker build -t shopping-api .
-2. Run the container
+```
+
+### 2. Run the container
+
+```bash
 docker run -p 8000:8000 shopping-api
-3. Open API docs
+```
+
+### 3. Open API docs
+
+```bash
 http://localhost:8000/docs
-________________________________________
-☁️ Run from Docker Hub
+```
+
+---
+
+## ☁️ Run from Docker Hub
+
 ![Docker Pulls](https://img.shields.io/docker/pulls/juan23belmonte/shopping-api)
+
+```bash
 docker pull juan23belmonte/shopping-api
 docker run -p 8000:8000 juan23belmonte/shopping-api
-________________________________________
-📁 Project Structure
+```
+
+---
+
+## 📁 Project Structure
+
+```bash
 .
 ├── data/          # Trained model and encoders
 ├── src/           # FastAPI application
@@ -88,12 +155,20 @@ ________________________________________
 ├── Dockerfile
 ├── requirements.txt
 └── README.md
-________________________________________
-🔮 Future Improvements
-•	Add multiple models and comparison
-•	Integrate MLflow for experiment tracking
-•	Improve handling of class imbalance
-•	Deploy to cloud (AWS / GCP)
-________________________________________
-🧑💻 Author
+```
+
+---
+
+## 🔮 Future Improvements
+
+* Add multiple models and comparison
+* Integrate MLflow for experiment tracking
+* Improve handling of class imbalance
+* Deploy to cloud (AWS / GCP)
+
+---
+
+## 🧑💻 Author
+
 [Juan Belmonte González](https://www.linkedin.com/in/juan-belmonte-gonzález-1809ab368)
+
